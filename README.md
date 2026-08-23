@@ -171,12 +171,10 @@ _Generated from `.sota/` — do not hand-edit._
 | :--- | :--- | :--- |
 | **TRL** | **5** | Component validated in relevant environment |
 | **SRL**  | **4** | Performance specifications and constraints defined and allocated — seams only |
-| Composite SRL | 0.679 | standard formulation (all components, diagonal-inclusive) |
+| Composite SRL | 0.679 | aggregate over all components (0–1) |
 | Weakest component | core (0.4444) | lowest component-level SRL |
 | Weakest seam | core<->whisper-cpp (IRL 3) | lowest-scoring integration pair |
-| Phase | P6 | |
-| Hypothesis | partially-supported, supported | |
-| Suitable for | early-adopters | |
+| Suitable for | early-adopters | audience for which this result is ready |
 
 | Component | Role | TRL | Component SRL |
 | :--- | :--- | :-: | :-: |

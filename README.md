@@ -165,7 +165,7 @@ MIT — see [LICENSE](LICENSE).
 
 ### Readiness scorecard
 
-_Auto-generated. Do not hand-edit._
+_Generated from `.sota/` — do not hand-edit._
 
 | Measure | Value | Meaning |
 | :--- | :--- | :--- |

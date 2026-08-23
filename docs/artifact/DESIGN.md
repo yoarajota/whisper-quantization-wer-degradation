@@ -2,8 +2,8 @@
 
 The visual and content system for this directory's artifact: `index.html` +
 `data.json`. `index.html` and `styles.css` are generated files — do not hand-edit;
-all content comes from `data.json` and the page files are produced by the
-project's generation tooling.
+all content comes from `data.json`, and the page files are produced by regeneration
+tooling outside this repository.
 
 ## Design read
 

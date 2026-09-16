@@ -4,6 +4,8 @@
 
 **Concept** `C-003` · **archetype** `implementation`.
 
+Readiness, scenario status and audience for this result: [docs/scorecard.md](docs/scorecard.md) — machine-generated.
+
 Measures the Word Error Rate of Whisper large-v3 across whisper.cpp integer quantization
 levels (FP16, INT8, INT5, INT4) on LibriSpeech test-clean to pinpoint the first
 quantization step that produces a statistically significant degradation.

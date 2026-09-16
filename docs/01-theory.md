@@ -157,7 +157,7 @@ reachable sources with distinct URLs, of which ≥ 3 are `Access: full-text`**.
 Heading format must be exactly `### SRC-###  —  <citation>`. Every entry needs a URL, an
 `Access:` line, and an `Establishes:` line.
 
-`Access` values — see `workflows/03-theory-pass.md § The sourcing toolkit`:
+`Access` values:
 
 - `full-text` — you read the document. Only these count toward the ≥ 3 requirement.
 - `abstract-only` — paywalled; you read the abstract and nothing more.

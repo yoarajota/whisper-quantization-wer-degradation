@@ -1,0 +1,21 @@
+name: verify
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      # Executes the checks each evidence entry declares: the Go suites, the Docker pipeline
+      # leg, and the recomputation of the full-dataset WER figures from the committed JSON.
+      - name: verify the evidence
+        run: python3 tools/verify_evidence.py

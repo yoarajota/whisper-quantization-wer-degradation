@@ -256,10 +256,10 @@ def walk(node: object, tokens: list[str]) -> object:
 
 def aggregate(values: object, kind: str) -> float:
     if not isinstance(values, list):
-        raise KeyError(f"agg={kind} needs a list, found {type(values).__name__}")
+        raise KeyError(f"agg={kind} needs a list, found {type(values).__name__}")  # noqa: TRY003
     numbers = [float(value) for value in values if isinstance(value, (int, float))]
     if not numbers:
-        raise KeyError("no numbers to aggregate")
+        raise KeyError("no numbers to aggregate")  # noqa: TRY003
     if kind == "mean":
         return sum(numbers) / len(numbers)
     if kind == "median":
@@ -275,7 +275,7 @@ def aggregate(values: object, kind: str) -> float:
         return max(numbers)
     if kind == "count":
         return float(len(numbers))
-    raise KeyError(f"unknown agg={kind}")
+    raise KeyError(f"unknown agg={kind}")  # noqa: TRY003
 
 
 def check_entry(entry: Entry, root: Path, timeout: int) -> Outcome:
@@ -402,20 +402,24 @@ def check_repeat_identical(check: Check, entry: Entry, root: Path,
 
 
 def write_record(root: Path, outcomes: list[Outcome], tool_version: str) -> dict[str, object]:
+    """Merge this run's outcomes into the record.
+
+    `--only` re-checks a subset; replacing the file with just that subset would silently drop
+    every other entry's record, and a partial run would look like a repository whose other
+    evidence was never verified.
+    """
     today = date.today().isoformat()
-    record = {
-        "generated": today,
-        "tool": tool_version,
-        "entries": {
-            outcome.eid: {
-                "outcome": outcome.outcome,
-                "date": today,
-                "checks": outcome.checks,
-                **({"reason": outcome.reason} if outcome.reason else {}),
-            }
-            for outcome in outcomes
-        },
-    }
+    record_path = root / RECORD
+    existing = json.loads(read(record_path) or "{}").get("entries", {})
+    entries = dict(existing)
+    for outcome in outcomes:
+        entries[outcome.eid] = {
+            "outcome": outcome.outcome,
+            "date": today,
+            "checks": outcome.checks,
+            **({"reason": outcome.reason} if outcome.reason else {}),
+        }
+    record = {"generated": today, "tool": tool_version, "entries": entries}
     (root / RECORD).parent.mkdir(parents=True, exist_ok=True)
     (root / RECORD).write_text(json.dumps(record, indent=2, sort_keys=True) + "\n",
                                encoding="utf-8")

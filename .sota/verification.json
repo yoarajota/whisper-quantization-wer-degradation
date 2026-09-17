@@ -25,6 +25,15 @@
       "date": "2026-09-16",
       "outcome": "pass"
     },
+    "E-004": {
+      "checks": [
+        "exit-zero",
+        "output-contains-near",
+        "output-contains"
+      ],
+      "date": "2026-09-16",
+      "outcome": "pass"
+    },
     "E-006": {
       "checks": [
         "data-sha256",

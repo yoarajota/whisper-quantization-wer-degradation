@@ -135,6 +135,8 @@ ask what you can do for your country" > /tmp/test/transcripts/jfk.txt
 Q4_0 WER=0.0909 (rel=0%, p=1.0). Pipeline produces valid JSON. Sizes: 75MB→29MB→25MB.
 
 **Verifies:** exit-zero
+**Verifies:** output-contains-near 0.0909 tolerance=0.0001
+**Verifies:** output-contains "RelChangePct"
 
 **Status:** reproducing
 **Supports:** H-001, H-002, S-001, S-002, TRL 5 for `core`

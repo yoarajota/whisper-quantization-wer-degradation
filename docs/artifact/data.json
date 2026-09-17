@@ -15,7 +15,7 @@
     "created": "2026-08-11",
     "updated": "2026-08-15",
     "generated_at": "2026-09-16",
-    "input_digest": "2788f955fcad67bd"
+    "input_digest": "c69884e1ced4ead9"
   },
   "pitch": {
     "one_line_answer": "The first statistically significant accuracy loss appears at INT4: +4.9% word error rate on clean speech (p=0.001) for a 71% smaller model — while INT8 and INT5 are slightly better than full precision.",

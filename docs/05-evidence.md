@@ -21,14 +21,20 @@ Six sources were fetched and read, establishing the gap. Appears in `docs/01-the
 
 **Kind:** survey
 
-```bash
-echo "See docs/01-theory.md § Sources for the fetched URLs and extracted findings."
-echo "Sources: SRC-001 through SRC-006."
+```sh
+# Counts the ledger's own sources, so the numbers in the Result come from this command.
+printf 'sources: %s full-text: %s abstract-only: %s\n' \
+  "$(grep -c '^### SRC-' docs/01-theory.md)" \
+  "$(grep -c '^- \*\*Access:\*\* full-text' docs/01-theory.md)" \
+  "$(grep -c '^- \*\*Access:\*\* abstract-only' docs/01-theory.md)"
 ```
 
 **Result:** Six sources read (5 full-text, 1 abstract-only). Key finding: no existing work
 measures whisper.cpp ggml quantization WER on a full benchmark with bootstrap CIs and
 paired statistical tests.
+
+**Verifies:** exit-zero
+**Verifies:** output-contains "sources: 6 full-text: 5 abstract-only: 1"
 
 **Status:** reproducing
 **Supports:** H-001, H-002, TRL 1 for `core`
@@ -45,12 +51,21 @@ valid Wilcoxon signed-rank p-values. Tests in `poc/main_test.go` verify edge cas
 
 **Kind:** test
 
-```bash
-go test ./poc/ -v
+```sh
+# Prints the pass/fail counts the Result states, and exits with the test suite's own status.
+out=$(go test ./poc/ -v 2>&1); status=$?
+printf '%s\n' "$out" | grep -E '^--- (PASS|FAIL):'
+printf 'passed: %s failed: %s\n' "$(printf '%s\n' "$out" | grep -c '^--- PASS:')" \
+  "$(printf '%s\n' "$out" | grep -c '^--- FAIL:')"
+exit $status
 ```
 
 **Result:** 7/7 tests pass. `TestWilcoxonShift` confirms systematic 0.01 shift on n=60
 produces p <= 0.05.
+
+**Verifies:** exit-zero
+**Verifies:** output-contains "passed: 7 failed: 0"
+**Verifies:** output-contains "--- PASS: TestWilcoxonShift"
 
 **Status:** reproducing
 **Supports:** H-001, H-002, TRL 3 for `core`
@@ -67,12 +82,20 @@ modes, and properties. All pass.
 
 **Kind:** test
 
-```bash
-go test ./src/werpipe/ -v
+```sh
+# Prints the pass/fail counts the Result states, and exits with the test suite's own status.
+out=$(go test ./src/werpipe/ -v 2>&1); status=$?
+printf '%s\n' "$out" | grep -E '^--- (PASS|FAIL):'
+printf 'passed: %s failed: %s\n' "$(printf '%s\n' "$out" | grep -c '^--- PASS:')" \
+  "$(printf '%s\n' "$out" | grep -c '^--- FAIL:')"
+exit $status
 ```
 
 **Result:** 22/22 tests pass. Wilcoxon p=1.0 for identical data, p<0.05 for shift of 0.05
 on n=40. Normalize is idempotent. Bootstrap CI monotonic.
+
+**Verifies:** exit-zero
+**Verifies:** output-contains "passed: 22 failed: 0"
 
 **Status:** reproducing
 **Supports:** S-003 (modifiability)
@@ -110,6 +133,8 @@ ask what you can do for your country" > /tmp/test/transcripts/jfk.txt
 
 **Result:** 3 levels, 1 sample each. F16 WER=0.0909, Q5_0 WER=0.0909 (rel=0%, p=1.0),
 Q4_0 WER=0.0909 (rel=0%, p=1.0). Pipeline produces valid JSON. Sizes: 75MB→29MB→25MB.
+
+**Verifies:** exit-zero
 
 **Status:** reproducing
 **Supports:** H-001, H-002, S-001, S-002, TRL 5 for `core`
@@ -162,6 +187,12 @@ Answer to the concept question: the first statistically significant WER degradat
 appears at INT4 (Q4_0). INT8 and INT5 show no degradation — small significant
 improvements consistent with the literature's observation that mild quantization
 acts as a regularizer on Transformer ASR.
+
+**Verifies:** data-sha256
+**Verifies:** computed-from evidence-data/E-006-final.json path=[level=f16].results.Samples[].WER agg=mean value=0.053518 tolerance=0.000001
+**Verifies:** computed-from evidence-data/E-006-final.json path=[level=q8_0].results.Samples[].WER agg=mean value=0.052481 tolerance=0.000001
+**Verifies:** computed-from evidence-data/E-006-final.json path=[level=q5_0].results.Samples[].WER agg=mean value=0.051937 tolerance=0.000001
+**Verifies:** computed-from evidence-data/E-006-final.json path=[level=q4_0].results.Samples[].WER agg=mean value=0.056139 tolerance=0.000001
 
 **Status:** reproducing
 **Supports:** H-001 (partially — significant but +4.9% < 10%), H-002 (supported),

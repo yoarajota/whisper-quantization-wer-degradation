@@ -1,0 +1,42 @@
+{
+  "entries": {
+    "E-001": {
+      "checks": [
+        "exit-zero",
+        "output-contains"
+      ],
+      "date": "2026-09-16",
+      "outcome": "pass"
+    },
+    "E-002": {
+      "checks": [
+        "exit-zero",
+        "output-contains",
+        "output-contains"
+      ],
+      "date": "2026-09-16",
+      "outcome": "pass"
+    },
+    "E-003": {
+      "checks": [
+        "exit-zero",
+        "output-contains"
+      ],
+      "date": "2026-09-16",
+      "outcome": "pass"
+    },
+    "E-006": {
+      "checks": [
+        "data-sha256",
+        "computed-from",
+        "computed-from",
+        "computed-from",
+        "computed-from"
+      ],
+      "date": "2026-09-16",
+      "outcome": "pass"
+    }
+  },
+  "generated": "2026-09-16",
+  "tool": "verify_evidence.py"
+}
